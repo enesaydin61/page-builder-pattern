@@ -3,10 +3,6 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
 }
 
-springBoot {
-    mainClass = "com.insider.WebUiTestApplication"
-}
-
 val springBootVersion = "3.2.0"
 val seleniumVersion = "4.15.0"
 val webDriverManagerVersion = "5.6.2"
@@ -15,7 +11,6 @@ val jacksonVersion = "2.16.0"
 val junitVersion = "5.10.0"
 val mockitoVersion = "5.7.0"
 val lombokVersion = "1.18.30"
-val googleGenAIVersion = "1.3.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -115,11 +110,6 @@ dependencies {
         group = "org.mockito",
         name = "mockito-junit-jupiter",
         version = mockitoVersion
-    )
-    implementation(
-        group = "com.google.genai",
-        name = "google-genai",
-        version = googleGenAIVersion
     )
 }
 
