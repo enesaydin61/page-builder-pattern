@@ -1,4 +1,4 @@
-# Page Builder Pattern - Web UI Test Otomasyonu
+# Page Builder Pattern
 
 Bu proje, **Annotation Processing** kullanarak Page Object Pattern'i otomatik olarak generate eden bir Java Web UI test framework'üdür. Selenium WebDriver ve Spring Boot teknolojileri ile geliştirilmiştir.
 
