@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: test
+  main:
+    web-application-type: none
+
+logging:
+  level:
+    com.insider: INFO
+    org.springframework: INFO
+    reactor.netty: INFO
