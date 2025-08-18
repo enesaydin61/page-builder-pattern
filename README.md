@@ -30,8 +30,6 @@ page_builder/
 - **Selenium WebDriver 4.15.0**
 - **JUnit 5**
 - **Gradle**
-- **Lombok**
-- **Jackson**
 
 ## 📋 Gereksinimler
 
