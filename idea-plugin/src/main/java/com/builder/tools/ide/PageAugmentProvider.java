@@ -51,27 +51,27 @@ public class PageAugmentProvider extends PsiAugmentProvider {
                 
                 // Generate methods based on annotation attributes
                 if (getBooleanValue(generateMethodsAnnotation, "click")) {
-                    methods.add(createClickMethod(psiClass, fieldName, capitalizedFieldName, generateMethodsAnnotation));
+                    methods.add(createClickMethod(psiClass, field, fieldName, capitalizedFieldName, generateMethodsAnnotation));
                 }
                 
                 if (getBooleanValue(generateMethodsAnnotation, "sendKeys")) {
-                    methods.add(createSendKeysMethod(psiClass, fieldName, capitalizedFieldName));
+                    methods.add(createSendKeysMethod(psiClass, field, fieldName, capitalizedFieldName));
                 }
                 
                 if (getBooleanValue(generateMethodsAnnotation, "isDisplayed")) {
-                    methods.add(createIsDisplayedMethod(psiClass, fieldName, capitalizedFieldName));
+                    methods.add(createIsDisplayedMethod(psiClass, field, fieldName, capitalizedFieldName));
                 }
                 
                 if (getBooleanValue(generateMethodsAnnotation, "getText")) {
-                    methods.add(createGetTextMethod(psiClass, fieldName, capitalizedFieldName));
+                    methods.add(createGetTextMethod(psiClass, field, fieldName, capitalizedFieldName));
                 }
                 
                 if (getBooleanValue(generateMethodsAnnotation, "selectByText")) {
-                    methods.add(createSelectByTextMethod(psiClass, fieldName, capitalizedFieldName));
+                    methods.add(createSelectByTextMethod(psiClass, field, fieldName, capitalizedFieldName));
                 }
                 
                 if (getBooleanValue(generateMethodsAnnotation, "selectByIndex")) {
-                    methods.add(createSelectByIndexMethod(psiClass, fieldName, capitalizedFieldName));
+                    methods.add(createSelectByIndexMethod(psiClass, field, fieldName, capitalizedFieldName));
                 }
             }
             
@@ -83,7 +83,7 @@ public class PageAugmentProvider extends PsiAugmentProvider {
         return psiClass.getAnnotation(PAGE_BUILDER_ANNOTATION) != null;
     }
     
-    private LightMethodBuilder createClickMethod(PsiClass psiClass, String fieldName, String capitalizedFieldName, PsiAnnotation annotation) {
+    private LightMethodBuilder createClickMethod(PsiClass psiClass, PsiField field, String fieldName, String capitalizedFieldName, PsiAnnotation annotation) {
         String methodName = "click" + capitalizedFieldName;
         PsiType returnType = getReturnType(psiClass, annotation);
         
@@ -91,11 +91,11 @@ public class PageAugmentProvider extends PsiAugmentProvider {
             .setContainingClass(psiClass)
             .setMethodReturnType(returnType)
             .addModifier(PsiModifier.PUBLIC);
-        method.setNavigationElement(psiClass);
+        method.setNavigationElement(field);  // Field'a navigate et, sınıfa değil!
         return method;
     }
     
-    private LightMethodBuilder createSendKeysMethod(PsiClass psiClass, String fieldName, String capitalizedFieldName) {
+    private LightMethodBuilder createSendKeysMethod(PsiClass psiClass, PsiField field, String fieldName, String capitalizedFieldName) {
         String methodName = "sendKeys" + capitalizedFieldName;
         PsiType returnType = PsiTypesUtil.getClassType(psiClass);
         PsiType stringType = PsiType.getJavaLangString(psiClass.getManager(), psiClass.getResolveScope());
@@ -105,22 +105,22 @@ public class PageAugmentProvider extends PsiAugmentProvider {
             .setMethodReturnType(returnType)
             .addModifier(PsiModifier.PUBLIC)
             .addParameter("text", stringType);
-        method.setNavigationElement(psiClass);
+        method.setNavigationElement(field);  // Field'a navigate et
         return method;
     }
     
-    private LightMethodBuilder createIsDisplayedMethod(PsiClass psiClass, String fieldName, String capitalizedFieldName) {
+    private LightMethodBuilder createIsDisplayedMethod(PsiClass psiClass, PsiField field, String fieldName, String capitalizedFieldName) {
         String methodName = "isDisplayed" + capitalizedFieldName;
         
         LightMethodBuilder method = new LightMethodBuilder(psiClass.getManager(), methodName)
             .setContainingClass(psiClass)
             .setMethodReturnType(PsiType.BOOLEAN)
             .addModifier(PsiModifier.PUBLIC);
-        method.setNavigationElement(psiClass);
+        method.setNavigationElement(field);  // Field'a navigate et
         return method;
     }
     
-    private LightMethodBuilder createGetTextMethod(PsiClass psiClass, String fieldName, String capitalizedFieldName) {
+    private LightMethodBuilder createGetTextMethod(PsiClass psiClass, PsiField field, String fieldName, String capitalizedFieldName) {
         String methodName = "getText" + capitalizedFieldName;
         PsiType stringType = PsiType.getJavaLangString(psiClass.getManager(), psiClass.getResolveScope());
         
@@ -128,11 +128,11 @@ public class PageAugmentProvider extends PsiAugmentProvider {
             .setContainingClass(psiClass)
             .setMethodReturnType(stringType)
             .addModifier(PsiModifier.PUBLIC);
-        method.setNavigationElement(psiClass);
+        method.setNavigationElement(field);  // Field'a navigate et
         return method;
     }
     
-    private LightMethodBuilder createSelectByTextMethod(PsiClass psiClass, String fieldName, String capitalizedFieldName) {
+    private LightMethodBuilder createSelectByTextMethod(PsiClass psiClass, PsiField field, String fieldName, String capitalizedFieldName) {
         String methodName = "selectByText" + capitalizedFieldName;
         PsiType returnType = PsiTypesUtil.getClassType(psiClass);
         PsiType stringType = PsiType.getJavaLangString(psiClass.getManager(), psiClass.getResolveScope());
@@ -142,11 +142,11 @@ public class PageAugmentProvider extends PsiAugmentProvider {
             .setMethodReturnType(returnType)
             .addModifier(PsiModifier.PUBLIC)
             .addParameter("text", stringType);
-        method.setNavigationElement(psiClass);
+        method.setNavigationElement(field);  // Field'a navigate et
         return method;
     }
     
-    private LightMethodBuilder createSelectByIndexMethod(PsiClass psiClass, String fieldName, String capitalizedFieldName) {
+    private LightMethodBuilder createSelectByIndexMethod(PsiClass psiClass, PsiField field, String fieldName, String capitalizedFieldName) {
         String methodName = "selectByIndex" + capitalizedFieldName;
         PsiType returnType = PsiTypesUtil.getClassType(psiClass);
         
@@ -155,7 +155,7 @@ public class PageAugmentProvider extends PsiAugmentProvider {
             .setMethodReturnType(returnType)
             .addModifier(PsiModifier.PUBLIC)
             .addParameter("index", PsiType.INT);
-        method.setNavigationElement(psiClass);
+        method.setNavigationElement(field);  // Field'a navigate et
         return method;
     }
     
