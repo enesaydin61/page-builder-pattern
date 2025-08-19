@@ -17,6 +17,9 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
+springBoot {
+    mainClass = "com.builder.WebUiTestApplication"
+}
 
 dependencies {
     annotationProcessor(project(":processor"))
@@ -116,7 +119,23 @@ dependencies {
 val generatedSourcesDir = "$layout.buildDirectory/generated"
 tasks.named<JavaCompile>("compileJava") {
     options.isFork = true
-    options.compilerArgs.addAll(listOf("-Xlint:-unchecked", "-nowarn"))
+    options.compilerArgs.addAll(listOf("-Xlint:-unchecked", "-nowarn",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
+    ))
+    options.forkOptions.jvmArgs?.addAll(listOf(
+        "--add-modules=jdk.compiler",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
+    ))
     options.sourcepath = project.files("src/main/java")
 
     val workspaceProperty = System.getProperty("WORKSPACE", "LOCAL")

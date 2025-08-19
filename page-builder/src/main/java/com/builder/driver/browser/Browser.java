@@ -32,4 +32,13 @@ public interface Browser {
 
     void sleepSecond(Integer second);
 
+    // Added for AST-generated methods
+    String getText(WebElement element);
+
+    void selectByText(WebElement selectElement, String text);
+
+    void selectByIndex(WebElement selectElement, int index);
+
+    String getElementAttribute(WebElement element, String attributeName);
+
 }

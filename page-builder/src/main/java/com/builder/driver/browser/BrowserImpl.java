@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Slf4j
@@ -103,6 +104,46 @@ public class BrowserImpl implements Browser {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       log.error("Sleep interrupted", e);
+    }
+  }
+
+  @Override
+  public String getText(WebElement element) {
+    try {
+      return element.getText();
+    } catch (Exception e) {
+      log.warn("getText failed: {}", e.getMessage());
+      return "";
+    }
+  }
+
+  @Override
+  public void selectByText(WebElement selectElement, String text) {
+    try {
+      new Select(selectElement).selectByVisibleText(text);
+    } catch (Exception e) {
+      log.error("selectByText failed: {}", e.getMessage());
+      throw e;
+    }
+  }
+
+  @Override
+  public void selectByIndex(WebElement selectElement, int index) {
+    try {
+      new Select(selectElement).selectByIndex(index);
+    } catch (Exception e) {
+      log.error("selectByIndex failed: {}", e.getMessage());
+      throw e;
+    }
+  }
+
+  @Override
+  public String getElementAttribute(WebElement element, String attributeName) {
+    try {
+      return element.getAttribute(attributeName);
+    } catch (Exception e) {
+      log.warn("getElementAttribute failed: {}", e.getMessage());
+      return null;
     }
   }
 

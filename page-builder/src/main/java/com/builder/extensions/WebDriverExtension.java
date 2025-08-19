@@ -56,6 +56,13 @@ public class WebDriverExtension implements BeforeEachCallback, AfterEachCallback
         log.error("WebDriver kapatılırken hata oluştu: {}", e.getMessage());
       }
     }
+
+    // Ensure ThreadLocal cleanup
+    try {
+      WebTestContextProvider.remove();
+    } catch (Exception ex) {
+      log.warn("WebTestContextProvider remove failed: {}", ex.getMessage());
+    }
   }
 
   private WebDriver createWebDriver(String browserName, boolean headless) {

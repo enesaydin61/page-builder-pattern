@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @PageBuilder
-public class LoginPageBuilder extends PageActions<LoginPageBuilder> {
+public class LoginPage extends PageActions<LoginPage> {
 
   @FindBy(id = "username")
   @GenerateMethods(sendKeys = true, isDisplayed = true)
@@ -18,7 +18,7 @@ public class LoginPageBuilder extends PageActions<LoginPageBuilder> {
   private WebElement password;
 
   @FindBy(css = ".submit-btn")
-  @GenerateMethods(click = true, returnPage = HomePageBuilder.class)
+  @GenerateMethods(click = true, returnPage = HomePage.class)
   private WebElement submitButton;
 
 }

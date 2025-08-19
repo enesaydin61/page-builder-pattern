@@ -18,6 +18,25 @@ tasks.withType(Javadoc::class.java) {
 
 tasks.named<JavaCompile>("compileJava") {
     options.isIncremental = true
+    options.compilerArgs.addAll(listOf(
+        "--add-modules", "jdk.compiler",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
+    ))
+    options.isFork = true
+    options.forkOptions.jvmArgs?.addAll(listOf(
+        "--add-modules=jdk.compiler",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
+    ))
 }
 
 repositories {
