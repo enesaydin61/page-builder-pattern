@@ -1,11 +1,33 @@
 <idea-plugin>
-  <id>com.builder.pagebuilder.augment</id>
-  <name>PageBuilder Augment</name>
-  <vendor email="you@example.com">You</vendor>
-  <description>Augments @PageBuilder classes with generated methods for IDE</description>
-  <depends>com.intellij.modules.java</depends>
-
-  <extensions defaultExtensionNs="com.intellij">
-    <psi.augmentProvider implementation="com.builder.tools.ide.PageAugmentProvider"/>
-  </extensions>
+    <id>com.builder.page-builder-support</id>
+    <name>Page Builder Support</name>
+    <vendor email="support@pagebuilder.com" url="https://pagebuilder.com">Page Builder Team</vendor>
+    
+    <description><![CDATA[
+    IntelliJ IDEA plugin for Page Builder Pattern support.
+    Provides IDE support for @GenerateMethods annotation by showing generated methods in autocomplete and removing red squiggles.
+    
+    Features:
+    - Shows generated click, sendKeys, isDisplayed, getText, selectByText, selectByIndex methods
+    - Supports method chaining with proper return types
+    - Compatible with @GenerateMethods annotation processing
+    ]]></description>
+    
+    <change-notes><![CDATA[
+    <b>1.0.0</b>
+    <ul>
+        <li>Initial release</li>
+        <li>Support for @GenerateMethods annotation</li>
+        <li>Lombok-like IDE integration</li>
+    </ul>
+    ]]></change-notes>
+    
+    <!-- Product and plugin compatibility requirements -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+    
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Page Builder method augmentation -->
+        <lang.psiAugmentProvider implementation="com.builder.tools.ide.PageAugmentProvider"/>
+    </extensions>
 </idea-plugin> 

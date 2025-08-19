@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 @PageBuilder
 public class HomePage extends PageActions<HomePage> {
 
+  @GenerateMethods(isDisplayed = true)
   @FindBy(id = "logo")
   private WebElement logo;
 

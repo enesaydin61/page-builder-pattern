@@ -1,38 +1,52 @@
 plugins {
-	java
-	id("org.jetbrains.intellij") version "1.17.4"
+    id("java")
+    id("org.jetbrains.intellij") version "1.17.4"
 }
 
-intellij {
-		version.set("2024.1")
-		type.set("IC")
-		plugins.set(listOf("java"))
-	}
-
-group = "com.builder.tools"
-version = "0.1.0"
+group = "com.builder"
+version = "1.0.0"
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 java {
-	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(17))
-	}
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
 dependencies {
-	// none
+    implementation("org.apache.commons:commons-lang3:3.12.0")
 }
 
-// Ensure Java 17 target to match IntelliJ Platform 2024.1 requirements
- tasks.withType<JavaCompile>().configureEach {
-	options.release.set(17)
+intellij {
+    version.set("2024.1")
+    type.set("IC") // IntelliJ IDEA Community Edition
+    
+    plugins.set(listOf(
+        "java"
+    ))
 }
 
-// Set explicit since/until build to match IU-241
-tasks.patchPluginXml {
-	sinceBuild.set("241")
-	untilBuild.set("241.*")
+tasks {
+    withType<JavaCompile> {
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
+    }
+
+    patchPluginXml {
+        sinceBuild.set("241")
+        untilBuild.set("241.*")
+    }
+
+    signPlugin {
+        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
+        privateKey.set(System.getenv("PRIVATE_KEY"))
+        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+    }
+
+    publishPlugin {
+        token.set(System.getenv("PUBLISH_TOKEN"))
+    }
 } 
