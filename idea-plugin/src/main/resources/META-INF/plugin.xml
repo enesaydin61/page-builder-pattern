@@ -1,0 +1,11 @@
+<idea-plugin>
+  <id>com.builder.pagebuilder.augment</id>
+  <name>PageBuilder Augment</name>
+  <vendor email="you@example.com">You</vendor>
+  <description>Augments @PageBuilder classes with generated methods for IDE</description>
+  <depends>com.intellij.modules.java</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <psi.augmentProvider implementation="com.builder.tools.ide.PageAugmentProvider"/>
+  </extensions>
+</idea-plugin> 
