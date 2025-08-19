@@ -51,7 +51,7 @@ public class PageAugmentProvider extends PsiAugmentProvider {
                 
                 // Generate methods based on annotation attributes
                 if (getBooleanValue(generateMethodsAnnotation, "click")) {
-                    methods.add(createClickMethod(psiClass, fieldName, capitalizedFieldName));
+                    methods.add(createClickMethod(psiClass, fieldName, capitalizedFieldName, generateMethodsAnnotation));
                 }
                 
                 if (getBooleanValue(generateMethodsAnnotation, "sendKeys")) {
@@ -83,9 +83,9 @@ public class PageAugmentProvider extends PsiAugmentProvider {
         return psiClass.getAnnotation(PAGE_BUILDER_ANNOTATION) != null;
     }
     
-    private LightMethodBuilder createClickMethod(PsiClass psiClass, String fieldName, String capitalizedFieldName) {
+    private LightMethodBuilder createClickMethod(PsiClass psiClass, String fieldName, String capitalizedFieldName, PsiAnnotation annotation) {
         String methodName = "click" + capitalizedFieldName;
-        PsiType returnType = PsiTypesUtil.getClassType(psiClass);
+        PsiType returnType = getReturnType(psiClass, annotation);
         
         LightMethodBuilder method = new LightMethodBuilder(psiClass.getManager(), methodName)
             .setContainingClass(psiClass)
@@ -159,6 +159,28 @@ public class PageAugmentProvider extends PsiAugmentProvider {
         return method;
     }
     
+    private PsiType getReturnType(PsiClass psiClass, PsiAnnotation annotation) {
+        // Check if returnPage is specified in the annotation
+        PsiAnnotationMemberValue returnPageValue = annotation.findAttributeValue("returnPage");
+        if (returnPageValue instanceof PsiClassObjectAccessExpression classAccess) {
+            PsiTypeElement operand = classAccess.getOperand();
+            if (operand != null) {
+                PsiType operandType = operand.getType();
+                String canonicalText = operandType.getCanonicalText();
+                
+                // Skip if it's the default Nullable.class or void.class
+                if (!canonicalText.equals("javax.annotation.Nullable") && 
+                    !canonicalText.equals("java.lang.Void") &&
+                    !canonicalText.equals("void")) {
+                    return operandType;
+                }
+            }
+        }
+        
+        // Default to the same class (for method chaining)
+        return PsiTypesUtil.getClassType(psiClass);
+    }
+
     private boolean getBooleanValue(PsiAnnotation annotation, String attributeName) {
         PsiAnnotationMemberValue value = annotation.findAttributeValue(attributeName);
         if (value instanceof PsiLiteral literal && literal.getValue() instanceof Boolean) {
