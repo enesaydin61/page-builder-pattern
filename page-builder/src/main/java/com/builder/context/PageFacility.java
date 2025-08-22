@@ -3,9 +3,10 @@ package com.builder.context;
 import com.builder.page.AbstractPage;
 import com.builder.page.Actions;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.WebElement;
 
 @Slf4j
-public class PageActions<P> extends AbstractPage implements Actions<P> {
+public class PageFacility<P> extends AbstractPage implements Actions<P> {
 
   @Override
   public P go(String url) {
@@ -34,6 +35,10 @@ public class PageActions<P> extends AbstractPage implements Actions<P> {
   @Override
   public P sleepSecond(int second) {
     browser.sleepSecond(second);
+    return (P) this;
+  }
+
+  public P uploadFile(WebElement uploadElement, String filePath) {
     return (P) this;
   }
 }

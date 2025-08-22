@@ -1,27 +1,17 @@
 package com.builder.page.homepage;
 
-import com.builder.annotations.GenerateMethods;
-import com.builder.annotations.PageBuilder;
-import com.builder.context.PageActions;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import com.builder.annotations.component.GetPage;
+import com.builder.context.PageFacility;
+import lombok.Data;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
-@PageBuilder
-public class HomePage extends PageActions<HomePage> {
+@Data
+@Lazy
+@Component
+public class HomePage extends PageFacility<HomePage> {
 
-  @FindBy(id = "logo")
-  private WebElement logo;
-
-  @GenerateMethods(click = true)
-  @FindBy(css = "#gender-popup-modal .modal-close")
-  private WebElement genderModalClose;
-
-  @GenerateMethods(sendKeys = true)
-  @FindBy(css = "#sfx-discovery-search-suggestions input")
-  private WebElement searchInput;
-
-  @GenerateMethods(selectByText = true)
-  @FindBy(css = "[data-testid='search-icon']")
-  private WebElement searchButton;
+  @GetPage
+  private ShowCaseLayout showCaseLayout;
 
 }

@@ -21,7 +21,52 @@ springBoot {
     mainClass = "com.builder.WebUiTestApplication"
 }
 
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    val artifactoryBaseUrl =
+        System.getProperty("artifactory.url", "https://artifactory.sahibindenlocal.net")
+
+    maven {
+        isAllowInsecureProtocol = true
+        url = uri("$artifactoryBaseUrl/artifactory/libs-snapshot-local")
+    }
+    maven {
+        isAllowInsecureProtocol = true
+        url = uri("$artifactoryBaseUrl/artifactory/libs-release-local")
+    }
+    maven {
+        url = uri("https://repo1.maven.org/maven2")
+    }
+    maven {
+        url = uri("https://www.jitpack.io")
+    }
+}
+
 dependencies {
+    val jExecutorVersion = "1.0.8"
+    val webCoreVersion = "2.21.2-SNAPSHOT"
+    val vrtVersion = "1.5.2-SNAPSHOT"
+
+    implementation(group = "com.sahibinden", name = "shbdn-vrt", version = vrtVersion) {
+        exclude(group = "org.junit.jupiter", module = "junit-jupiter-api")
+        exclude(group = "ch.qos.logback", module = "logback-classic")
+    }
+
+    implementation(group = "com.jsexecutor", name = "jsexecutor-core", version = jExecutorVersion) {
+        exclude(group = "org.seleniumhq.selenium", module = "selenium-support")
+        exclude(group = "org.seleniumhq.selenium", module = "selenium-chrome-driver")
+    }
+
+    implementation(group = "com.sahibinden", name = "ui-test-core", version = webCoreVersion) {
+        exclude(group = "com.sahibinden", module = "shbdn-vrt")
+        exclude(group = "org.projectlombok", module = "lombok")
+        exclude(group = "com.jsexecutor", module = "jsexecutor-core")
+        exclude(group = "org.slf4j", module = "slf4j-api")
+        exclude(group = "ch.qos.logback", module = "logback-classic")
+    }
+
     annotationProcessor(project(":processor"))
     implementation(project(":processor")) {
         exclude(group = "org.seleniumhq.selenium", module = "selenium-java")
